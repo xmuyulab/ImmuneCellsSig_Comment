@@ -279,8 +279,8 @@ table(NatMed_103samples_phenoData@data$class)
 processData <- function(exp, phenoInfo, features, printngenes=FALSE){
   ### unify response name for cross dataset test
   phenoInfo$class <- as.character(phenoInfo$class)
-  phenoInfo$class <- ifelse(phenoInfo$class == 'nonPD','NonResponder',phenoInfo$class)
-  phenoInfo$class <- ifelse(phenoInfo$class == 'PD','Responder',phenoInfo$class)
+  phenoInfo$class <- ifelse(phenoInfo$class == 'PD','NonResponder',phenoInfo$class)
+  phenoInfo$class <- ifelse(phenoInfo$class == 'nonPD','Responder',phenoInfo$class)
   phenoInfo$class <- ifelse(phenoInfo$class == 'Nonresponder','NonResponder',phenoInfo$class)
   phenoInfo$class <- ifelse(phenoInfo$class == 'Progressor','NonResponder',phenoInfo$class)
   
@@ -419,39 +419,3 @@ if (TRUE){
   write.csv(test, '../result/MGSP_randomsig_prediction.csv', quote = FALSE, row.names = FALSE)
 }
 
-################# 2.2 use the same dataset for train and test but split them into two datasets: 
-table(GSE78220_PhenoInfo2$class) # 15:13 
-table(CC_73samples_pData$class) # 27:46
-table(BMS038_PhenoInfo$class) # 25:26 -> GSE91061
-table(NatMed_103samples_pData$class) # 56:47 -> MGSP
-
-library(caret)
-testCV <- function(expdata, phenoInfo, features, num=5){
-  set.seed(17)
-  folds <- createFolds(y=phenoInfo$sample,k=num)
-  auc_value<-as.numeric()
-  test <- data.frame(label=c(), prediction=c(), nfold = c())
-  for (i in 1:5){
-    fold_test <- phenoInfo[folds[[i]],] #folds[[i]] for test
-    fold_train <- phenoInfo[-folds[[i]],] # remaining data for train
-    print(table(fold_train$class))
-    print(table(fold_test$class))
-    
-    test0 <- trainANDtestModel(traindata = expdata, testdata = expdata, 
-                               features = features, phenoInfo_train = fold_train, phenoInfo_test = fold_test)
-    colnames(test0) <- c('label','prediction')
-    auc_value <- append(auc_value, as.numeric(rocdata(test0$label, test0$prediction)$stats$auc))
-    if (i==1){
-      test <- test0
-    }else{
-      test <- rbind(test, test0)
-    }
-  }
-  return(list(auc=auc_value, result=test))
-}
-
-test0 <- testCV(expdata = BMS038.Pre.CountTable.normalized.log, phenoInfo = BMS038_PhenoInfo, features = ImSig.genes)[['result']]
-rocdata(test0$label, test0$prediction)
-test1 <- testCV(expdata = BMS038.Pre.CountTable.normalized.log, phenoInfo = BMS038_PhenoInfo, features = random.sig)[['result']]
-rocdata(test1$label, test1$prediction)
-test <- cbind(test0, test1)
