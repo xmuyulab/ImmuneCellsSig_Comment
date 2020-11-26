@@ -1,7 +1,7 @@
 ## Overview
 
 * [code](https://github.com/xmuyulab/ImmuneCellsSig_Comment/code)
-    - comment_NC_ICT.R: describing step-by-step analysis of the ImmuneCells.Sig performance on 4 melanoma ICT responses. 
+    - comment_NC_ICT.R: describing step-by-step analysis of the ImmuneCells.Sig performance on 4 melanoma ICT responses dataset. 
     - plotROC.ipynb: generating ROC figures. 
 * [data](https://github.com/xmuyulab/ImmuneCellsSig_Comment/data)
     - ImmuneCell.sig signature: ImSig.rds
