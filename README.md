@@ -10,7 +10,7 @@
     
 ## Requirements
 R version: R 3.6.3.
-Dependencies: rocc (1.3), ggplot2 (3.3.2), Biobase (2.46.0), edgeR (3.28.1), limma (3.42.2), biomaRt (2.42.1), dplyr (1.0.0), cancerclass (1.30.0)
+Dependencies: rocc (1.3), ggplot2 (3.3.2), viridis (0.5.1), Biobase (2.46.0), edgeR (3.28.1), limma (3.42.2), biomaRt (2.42.1), dplyr (1.0.0), cancerclass (1.30.0)
 
 Python version: Python 3 (3.7.6). 
-Dependencies: matplotlib (3.3.1), pandas (1.0.1), numpy (1.19.1), sklearn (0.22.1) 
+Dependencies: matplotlib (3.3.1), pandas (1.0.1), numpy (1.19.1), sklearn (0.22.1), cmocean (2.0)
